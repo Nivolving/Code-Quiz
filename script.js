@@ -6,17 +6,15 @@ var questionEl = document.getElementById("question");
 var timeEl = document.getElementById("timer");
 var submitDivEl = document.getElementById("submit-initials");
 var answerLabeEl0 = document.getElementById("option0");
-//console.log(answerLabeEl0);
 var answerLabeEl1 = document.getElementById("option1");
-//console.log(answerLabeEl1);
 var answerLabeEl2 = document.getElementById("option2");
-//console.log(answerLabeEl2);
 var answerLabeEl3 = document.getElementById("option3");
-//console.log(answerLabeEl3);
+var highScoreView = document.getElementById("highscore");
 var index = 0;
-//var leftOverTime = 0;
 var quizTime = 75;
+var elapsedTime = 0;
 var score = 0;
+var timerInterval = 0;
 var result = document.createElement("p");
 result.setAttribute('style', 'font-family:Impact,Charcoal,sans-serif')
 
@@ -27,7 +25,6 @@ startButtonEl.addEventListener('click', function () {
   quizEl.setAttribute("class", "container");
   setTime();
   startQuiz(index);
-  
 
   answerLabeEl0.addEventListener("click", function () {
     validateInput(answerLabeEl0);
@@ -48,9 +45,15 @@ startButtonEl.addEventListener('click', function () {
     });
     index++;
     if(index >= gameQuestions.length){
-      clearTimeout(quizTime);
+      clearInterval(timerInterval);
       quizEl.setAttribute("class", "d-none");
       submitDivEl.setAttribute("class", "container");
+      //console.log(quizTime);
+     //console.log(timeEl.value);
+      score = parseInt(timeEl.value) + score;
+      document.getElementById("final-score").setAttribute("value",score);
+      timeEl.value = " ";
+      storeInitials();
     }
     else{
       startQuiz(index);
@@ -60,6 +63,19 @@ startButtonEl.addEventListener('click', function () {
   
   });
 });
+
+highScoreView.addEventListener("click", function(){
+
+  submitDivEl.setAttribute("class", "d-none");
+  quizBeginEl.setAttribute("class", 'd-none');
+  document.getElementById("Nav-Container").setAttribute("class", 'd-none');
+  quizEndEl.setAttribute("class", "container");
+  timeEl.setAttribute("type","hidden");
+  
+
+  
+});
+   
 
 /* As i have created an array of game questions and answers as an nested array inside my gamequestions
 created the below for loop to get the elements for my list option*/
@@ -79,7 +95,12 @@ function validateInput(ansIndex) {
   if (userInput === gameQuestions[index].correctAnswer) {
     //var hrTag = document.createElement("hr");
     result.innerHTML = "Correct";
+    score = score + 5;
+    elapsedTime = quizTime - timeEl.value;
+    score = elapsedTime + score;
     quizEl.append(result);
+    //var x = timeEl.getAttribute("value");
+    
   }
   else {
     result.innerHTML = "Incorrect";
@@ -88,15 +109,22 @@ function validateInput(ansIndex) {
   }
 }
 
+
 function setTime() {
-  var timerInterval = setInterval(function () {
+  timerInterval = setInterval(function () {
     quizTime--;
     timeEl.value = quizTime;
-    console.log(quizTime)
+    //console.log(quizTime)
 
     if (quizTime === 0) {
       clearInterval(timerInterval);
-      //gameOver();
+      timeEl.value =+ score;
+      document.getElementById("final-score").setAttribute("value",timeEl.value);
+      timeEl.value = " ";
+      quizEl.setAttribute("class", "d-none");
+      submitDivEl.setAttribute("class", "container");
+      storeInitials();
+      
     }
 
   }, 1000);

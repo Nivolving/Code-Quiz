@@ -12,7 +12,7 @@
     
     <div class="container" id="Nav-Container">
         <nav class="navbar navbar-light bg-light justify-content-between">
-            <button class="btn btn-info">ViewHigScore</button>
+            <button class="btn btn-info" id="highscore">ViewHighScore</button>
             <form class="form-inline">
                 <label class="btn-info">Time</label>
                 <input class="form-control mr-sm-2" type="search" id="timer">
@@ -22,8 +22,8 @@
 
     <div class="container jumbotron text-center" id="quizBegin">
         <h1 class="display-4">Welcome To the Code Quiz!</h1>
-        <p class="lead">This Quiz has 5 questions, for each incorrect question timer will be reduced with -10. Score is
-            Calculated based on the remaining time</p>
+        <p class="lead">5 questions, for each incorrect question timer will be reduced with -10.
+            <br>+5 for each Correct answer</p>
         <hr class="my-4">
         <p>Click Start When you're ready</p>
         <a class="btn btn btn-info btn-lg" id="quiz-start" role="button">START</a>
@@ -47,16 +47,19 @@
 
     <div class="container d-none" id="submit-initials">
         <div class="input-group mb-3">
-            <input type="text" class="form-control" placeholder="Recipient's username" aria-label="Players's username"
-                aria-describedby="basic-addon2">
+            <input type="text" id= "input-initial" class="form-control" placeholder="Recipient's username" aria-describedby="basic-addon2" value=" ">
             <div class="input-group-append">
-                <button class="btn btn-outline-secondary" type="button">Submit</button>
+                <button class="btn btn-outline-secondary" type="button" id="submit-id">Submit</button>
             </div>
+            <br>
         </div>
+        <label for="score">Score</label>
+        <input type="text" id="final-score"></input>
     </div>
 
-    <div class="container d-none" id="quizEnd">
-        <p>for viewing highscore</p>
+    <div class="small-container d-none" id="quizEnd">
+        <h3>highscore</h3>
+        <ul id="list"></ul>
     </div>
 
     <script src="script.js"></script>
