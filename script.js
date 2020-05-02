@@ -53,7 +53,8 @@ startButtonEl.addEventListener('click', function () {
       score = parseInt(timeEl.value) + score;
       document.getElementById("final-score").setAttribute("value",score);
       timeEl.value = " ";
-      storeInitials();
+      
+
     }
     else{
       startQuiz(index);
@@ -69,14 +70,12 @@ highScoreView.addEventListener("click", function(){
   submitDivEl.setAttribute("class", "d-none");
   quizBeginEl.setAttribute("class", 'd-none');
   document.getElementById("Nav-Container").setAttribute("class", 'd-none');
+  quizEl.setAttribute("class","d-none");
   quizEndEl.setAttribute("class", "container");
   timeEl.setAttribute("type","hidden");
   
-
-  
 });
-   
-
+  
 /* As i have created an array of game questions and answers as an nested array inside my gamequestions
 created the below for loop to get the elements for my list option*/
 function startQuiz(qnIndex) {
@@ -123,9 +122,30 @@ function setTime() {
       timeEl.value = " ";
       quizEl.setAttribute("class", "d-none");
       submitDivEl.setAttribute("class", "container");
-      storeInitials();
-      
     }
 
   }, 1000);
 }
+
+
+
+document.getElementById('submit-id').addEventListener('click', function(){
+
+
+var initials = document.getElementById("input-initial").value;
+localStorage.setItem("highScore",JSON.stringify([initials,score]));
+var exsistingScore = JSON.parse(localStorage.getItem("highScore"));
+if(exsistingScore == null) exisitngScore = [];
+exsistingScore.push("highScore");
+var array = JSON.parse(localStorage.getItem("highScore"));
+var obj = JSON.stringify(array);
+//console.log(localStorage.getItem("highScore"));
+console.log(obj);
+var newElement = document.createElement("p");
+newElement.innerHTML = obj;
+document.getElementById("chart").append(newElement);
+
+
+
+})
+
