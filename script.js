@@ -74,6 +74,16 @@ highScoreView.addEventListener("click", function(){
   quizEndEl.setAttribute("class", "container");
   timeEl.setAttribute("type","hidden");
   
+
+  if (localStorage.getItem('existingScores') != null) {
+    for (var i = 0; i < JSON.parse(localStorage.getItem('existingScores')).length; i++) {
+      var p = document.createElement('p');
+      var currentScore = JSON.parse(localStorage.getItem('existingScores'))[i];
+      p.innerHTML = currentScore.initials + ': ' + currentScore.score;
+      document.getElementById('chart').append(p);
+    }
+  }
+
 });
   
 /* As i have created an array of game questions and answers as an nested array inside my gamequestions
@@ -131,21 +141,14 @@ function setTime() {
 
 document.getElementById('submit-id').addEventListener('click', function(){
 
+var student = {
+  initials: document.getElementById("input-initial").value,
+  score: score,
+};
 
-var initials = document.getElementById("input-initial").value;
-localStorage.setItem("highScore",JSON.stringify([initials,score]));
-var exsistingScore = JSON.parse(localStorage.getItem("highScore"));
-if(exsistingScore == null) exisitngScore = [];
-exsistingScore.push("highScore");
-var array = JSON.parse(localStorage.getItem("highScore"));
-var obj = JSON.stringify(array);
-//console.log(localStorage.getItem("highScore"));
-console.log(obj);
-var newElement = document.createElement("p");
-newElement.innerHTML = obj;
-document.getElementById("chart").append(newElement);
+var exisitngScores = JSON.parse(localStorage.getItem('existingScores')) || [];
+exisitngScores.push(student);
 
-
+localStorage.setItem('existingScores', JSON.stringify(exisitngScores));
 
 })
-
